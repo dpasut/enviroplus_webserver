@@ -1,16 +1,16 @@
 # Enviro+ Web-Server
 
-# Enviro+
+## Enviro+
 
 Designed for environmental monitoring, Enviro+ lets you measure air quality (pollutant gases and particulates), temperature, pressure, humidity, light, and noise level. Learn more - https://shop.pimoroni.com/products/enviro-plus
 
-
+### Enviro+ Status
 [![Build Status](https://travis-ci.com/pimoroni/enviroplus-python.svg?branch=master)](https://travis-ci.com/pimoroni/enviroplus-python)
 [![Coverage Status](https://coveralls.io/repos/github/pimoroni/enviroplus-python/badge.svg?branch=master)](https://coveralls.io/github/pimoroni/enviroplus-python?branch=master)
 [![PyPi Package](https://img.shields.io/pypi/v/enviroplus.svg)](https://pypi.python.org/pypi/enviroplus)
 [![Python Versions](https://img.shields.io/pypi/pyversions/enviroplus.svg)](https://pypi.python.org/pypi/enviroplus)
 
-# Installing
+## Installing
 
 You're best using the "One-line" install method if you want all of the UART serial configuration for the PMS5003 particulate matter sensor to run automatically.
 
@@ -18,7 +18,7 @@ You're best using the "One-line" install method if you want all of the UART seri
 
 :warning: This library now supports Python 3 only, Python 2 is EOL - https://www.python.org/doc/sunset-python-2/
 
-## One-line (Installs from GitHub)
+### One-line (Installs from GitHub)
 
 ```
 curl -sSL https://get.pimoroni.com/enviroplus | bash
@@ -26,7 +26,7 @@ curl -sSL https://get.pimoroni.com/enviroplus | bash
 
 **Note** report issues with one-line installer here: https://github.com/pimoroni/get
 
-## Or... Install and configure dependencies from GitHub:
+### Or... Install and configure dependencies from GitHub:
 
 * `git clone https://github.com/pimoroni/enviroplus-python`
 * `cd enviroplus-python`
@@ -34,7 +34,9 @@ curl -sSL https://get.pimoroni.com/enviroplus | bash
 
 **Note** Raspbian Lite users may first need to install git: `sudo apt install git`
 
-# Web-Server
+## Web-Server
+
+The *simple* web server uses Flask to display information from Enviro+. Once Enviro+ is installed following the instructions above (or [here](https://github.com/pimoroni/enviroplus-python) for guaranteed up to date instructions.), follow the below instructions to get the web-server running. 
 
 1. Install Flask
 ```pip3 install Flask``` 
