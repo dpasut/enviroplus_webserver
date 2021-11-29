@@ -64,9 +64,9 @@ def getParticles():
     try:
         pms_data = pms5003.read()
     except (SerialTimeoutError, pmsReadTimeoutError):
-        return "Failed to read PMS5003."
+        return "Failed to read PMS5003.", " ", " "
     else:
-        return pms_data.pm_ug_per_m3(1.0), pms_data.pm_ug_per_m3(2.5), pms_data.pm_ug_per_m3(10)
+        return pms_data.pm_per_1l_air(0.3), pms_data.pm_per_1l_air(0.5), pms_data.pm_per_1l_air(1.0)
 
 
 app = Flask(__name__)
@@ -79,7 +79,7 @@ def main():
     pressure = getPressure()
     light = getLight()
     humidity = getHumidity()
-    particulate = getParticles()
+    particulate_03, particulate_05, particulate_10 = getParticles()
     return """
             <meta http-equiv='refresh' content='1'>
             Welcome to the EnviroPi Webserver!<br/>
@@ -88,9 +88,9 @@ def main():
             Pressure = {} <br/>
             Light = {} <br/>
             Humidity = {} <br/>
-            Particulate Matter = {} <br/>
+            Particulate Matter = >0.3um in 0.1L air: {}, >0.5um in 0.1L air: {}, >1.0um in 0.1L air: {} <br/>
         """.format(
-        temp, gas, pressure, light, humidity, particulate
+        temp, gas, pressure, light, humidity, particulate_03, particulate_05, particulate_10
     )
 
 
