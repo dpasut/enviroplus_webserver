@@ -26,6 +26,10 @@ bme280 = BME280(i2c_dev=bus)
 
 pms5003 = PMS5003()
 
+# Tuning factor for compensation. Decrease this number to adjust the
+# temperature down, and increase to adjust up
+factor = 2.25
+
 
 def getGas():
     readings = gas.read_all()
@@ -39,9 +43,7 @@ def getCpuTemp():
     return float(output[output.index("=") + 1 : output.rindex("'")])
 
 
-def getTemp():
-    # adjust factor for better results, higher factor to increse temp
-    factor = 0.8
+def getTemp(factor):
     rawTemp = bme280.get_temperature()
     cpuTemp = getCpuTemp()
     calcTemp = cpuTemp - (cpuTemp - rawTemp) / factor
@@ -74,7 +76,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-    temp = getTemp()
+    temp = getTemp(factor)
     gas = getGas()
     pressure = getPressure()
     light = getLight()
