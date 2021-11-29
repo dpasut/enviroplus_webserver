@@ -12,6 +12,9 @@ except ImportError:
 from bme280 import BME280
 from enviroplus import gas
 from flask import Flask
+from pms5003 import PMS5003
+from pms5003 import ReadTimeoutError as pmsReadTimeoutError
+from pms5003 import SerialTimeoutError
 
 try:
     from smbus2 import SMBus
@@ -20,6 +23,8 @@ except ImportError:
 
 bus = SMBus(1)
 bme280 = BME280(i2c_dev=bus)
+
+pms5003 = PMS5003()
 
 
 def getGas():
@@ -55,6 +60,15 @@ def getLight():
     return ltr559.get_lux()
 
 
+def getParticles():
+    try:
+        pms_data = pms5003.read()
+    except (SerialTimeoutError, pmsReadTimeoutError):
+        return "Failed to read PMS5003."
+    else:
+        return pms_data.pm_ug_per_m3(1.0), pms_data.pm_ug_per_m3(2.5), pms_data.pm_ug_per_m3(10)
+
+
 app = Flask(__name__)
 
 
@@ -65,6 +79,7 @@ def main():
     pressure = getPressure()
     light = getLight()
     humidity = getHumidity()
+    particulate = getParticles()
     return """
             <meta http-equiv='refresh' content='1'>
             Welcome to the EnviroPi Webserver!<br/>
@@ -73,8 +88,9 @@ def main():
             Pressure = {} <br/>
             Light = {} <br/>
             Humidity = {} <br/>
+            Particulate Matter = {} <br/>
         """.format(
-        temp, gas, pressure, light, humidity
+        temp, gas, pressure, light, humidity, particulate
     )
 
 
